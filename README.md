@@ -1,10 +1,12 @@
 ## 简介 Overview
 你是否苦恼于在网络冲浪时,总在视频下面看到无关或者引战的评论?
 添加关键词,命中的评论会自动折叠,相当于一键静音,还你一个清爽的评论区。
+
 Tired of seeing off-topic or flame-bait comments under every video you watch?
 Add your keywords and matching comments are folded automatically, like a one-click mute,so you can enjoy a cleaner comment section.
 
 评论关键词屏蔽是一个桌面版 Chrome 和 Edge 扩展。添加你不想看到的关键词,评论正文命中后会自动折叠,可以逐条展开查看,也可以重新折叠。
+
 Comment Keyword Filter is a desktop Chrome and Edge extension. Add the keywords you do not want to see, and matching comments are folded automatically. You can expand each one to read it,
 or fold it again.
 
@@ -40,6 +42,8 @@ Keywords, settings and statistics stay in your browser. The extension requests o
 只处理网页上已加载且能识别结构的评论,不覆盖弹幕,直播聊天,图片里的文字和手机 App。平台改版后可能需要更新选择器。
 
 Only loaded comments with a recognizable page structure are handled. Danmaku, live chat, text inside images and mobile apps are not covered. Platform redesigns may require selector updates.
+
+## 参考 References
 
 功能参考 [清塘](https://github.com/Qyin24/bili-comment-filter) 的预览与配置管理、[MuteUI](https://chromewebstore.google.com/detail/muteui/liokhlbnokkbldcfcaegcmdgicodfbda) 商店页描述的可展开折叠，
 以及 [Strapi Comments](https://github.com/Sensinum/strapi-plugin-comments) 独立开关与词表检测思路。本扩展的自动过滤在浏览器本地运行。平台 DOM 结构参考 [EchoDistill](https://github.com/Kerinlin/EchoDistill)、
