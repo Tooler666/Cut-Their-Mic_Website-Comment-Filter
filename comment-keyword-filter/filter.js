@@ -457,7 +457,43 @@
       loadSettings().catch(console.error);
     }
   });
+  let selectionToast;
+  let selectionTimer;
+  function showSelectionToast(message) {
+    selectionToast?.remove();
+    clearTimeout(selectionTimer);
+    const toast = document.createElement('div');
+    toast.className = 'local-comment-keyword-toast';
+    toast.lang = locale;
+    toast.dir = locale === 'ar' ? 'rtl' : 'ltr';
+    const label = document.createElement('span');
+    label.setAttribute('role', 'status');
+    label.textContent = i18n.text(locale, message.status, {
+      word: message.word, level: message.level && i18n.text(locale, message.level)
+    });
+    toast.append(label);
+    if (message.token) {
+      const undo = document.createElement('button');
+      undo.type = 'button';
+      undo.textContent = i18n.text(locale, 'selectionUndo');
+      undo.addEventListener('click', async () => {
+        undo.disabled = true;
+        const restored = await chrome.runtime.sendMessage({ type: 'comment-filter-selection-undo', token: message.token })
+          .catch(() => false);
+        if (selectionToast === toast) showSelectionToast({ status: restored ? 'selectionUndone' : 'selectionExpired' });
+      });
+      toast.append(undo);
+    }
+    (document.body || document.documentElement).append(toast);
+    selectionToast = toast;
+    selectionTimer = setTimeout(() => { toast.remove(); selectionToast = undefined; }, 10000);
+  }
+
   chrome.runtime?.onMessage.addListener((message, sender, reply) => {
+    if (message?.type === 'comment-filter-selection-result') {
+      showSelectionToast(message);
+      return;
+    }
     if (message?.type !== 'comment-filter-status') return;
     reply({
       site, enabled, preview, scanned, hits: notices.size,

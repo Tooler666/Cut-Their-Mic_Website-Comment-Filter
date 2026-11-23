@@ -29,6 +29,7 @@
   let statsBusy = false;
   let statsRevision = 0;
   let locale = rules.defaults.locale;
+  let keywordBase;
   const t = (key, values) => i18n.text(locale, key, values);
 
   function translate() {
@@ -312,6 +313,15 @@
     return [level, wordList(inputId, listId, emptyId, tier.querySelector('.pager'))];
   });
   const exceptions = wordList('exceptions', 'exception-list', 'exceptions-empty');
+  function showKeywordGroups(groups) {
+    keywordBase = groups;
+    for (const [level, list] of tierLists) list.set(groups[level]);
+  }
+  chrome.storage.onChanged?.addListener((changes, area) => {
+    if (area !== 'local' || !changes.keywordGroups?.newValue || !keywordBase || controls.disabled) return;
+    if (tierLists.some(([level, list]) => list.value() !== rules.terms(keywordBase[level]).join('\n'))) return;
+    showKeywordGroups(changes.keywordGroups.newValue);
+  });
   search.addEventListener('input', () => {
     for (const [, list] of tierLists) list.search(search.value);
   });
@@ -380,7 +390,9 @@
 
   translate();
   chrome.storage.local.get(rules.defaults).then(value => {
-    showSettings(rules.read(value));
+    const settings = rules.read(value);
+    keywordBase = settings.keywordGroups;
+    showSettings(settings);
     controls.disabled = false;
     updatePageStatus();
   }).catch(() => {
@@ -412,7 +424,11 @@
     const settings = editedSettings();
     controls.disabled = true;
     try {
-      await chrome.storage.local.set(settings);
+      const applied = await chrome.runtime.sendMessage({
+        type: 'comment-filter-save-settings', settings, base: keywordBase
+      });
+      if (!applied) throw new Error('Settings write failed');
+      showKeywordGroups(applied);
       status.textContent = t('saved');
       updatePageStatus();
     } catch {

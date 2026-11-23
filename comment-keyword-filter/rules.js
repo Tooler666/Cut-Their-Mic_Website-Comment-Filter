@@ -77,6 +77,17 @@
     compile(input) {
       return this.terms(input).map(surface);
     },
+    mergeKeywordGroups(base, edited, current) {
+      return Object.fromEntries(levelIds.map(level => {
+        const before = new Set(this.compile(base[level]));
+        const draft = this.terms(edited[level]);
+        const remaining = new Set(draft.map(surface));
+        const words = this.terms(current[level]).filter(word =>
+          !before.has(surface(word)) || remaining.has(surface(word)));
+        words.push(...draft.filter(word => !before.has(surface(word))));
+        return [level, this.terms(words.join('\n')).join('\n')];
+      }));
+    },
     find(text, keywords, exceptions = [], level = defaults.matchLevel) {
       const normalized = surface(text);
       if (exceptions.some(word => normalized.includes(word))) return undefined;

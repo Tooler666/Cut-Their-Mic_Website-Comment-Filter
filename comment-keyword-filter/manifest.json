@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
   "name": "评论关键词屏蔽",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "description": "在 B 站、TikTok、抖音、YouTube、X、小红书、Instagram、Reddit、贴吧和 Facebook 按关键词折叠评论。",
   "permissions": [
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "action": {
     "default_title": "打开评论关键词屏蔽设置",
@@ -20,7 +21,8 @@
     "128": "icons/icon128.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "options_ui": {
     "page": "popup.html",

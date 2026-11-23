@@ -104,6 +104,21 @@
     "hi": ["टिप्पणी के पाठ में कोई भी अपवाद मिलने पर पूरी टिप्पणी दिखाई देती है। अपवाद की प्राथमिकता अवरुद्ध शब्दों और स्वचालित अपशब्द फ़िल्टर से अधिक है। फ़िल्टर स्तर चाहे जो हो, अपवाद पाठ में कहीं भी हो सकता है।","उदाहरण के लिए, संतुलित स्तर पर “स्पॉइलर” रोकें और “कोई स्पॉइलर नहीं” को अपवाद बनाएँ।","“नीचे स्पॉइलर है” → समेटा जाएगा।","“यहाँ कोई स्पॉइलर नहीं है” → दिखाई देगा।","“शीर्षक कहता है कोई स्पॉइलर नहीं, पर नीचे स्पॉइलर है” → अपवाद मौजूद है, इसलिए दिखाई देगा।"],
     "ar": ["إذا احتوى نص التعليق على أي عبارة استثناء، يبقى التعليق كله ظاهرًا. للاستثناء أولوية على الكلمات المحظورة ومرشّح الألفاظ النابية، ويكفي أن يظهر في أي موضع من النص مهما كان مستوى المطابقة.","مثلًا، احظر «حرق» بالمستوى المتوازن وأضف «بدون حرق» ضمن الاستثناءات.","«في الأسفل حرق للأحداث» ← يُطوى.","«مراجعة بدون حرق» ← يبقى ظاهرًا.","«العنوان يقول بدون حرق، لكن فيه حرق للأحداث» ← يبقى ظاهرًا لوجود «بدون حرق»."],
   };
+  const selectionKeys = 'selectionMenu selectionAdded selectionMoved selectionExists selectionInvalid selectionError selectionUndo selectionUndone selectionExpired'.split(' ');
+  const selectionRows = {
+    "zh-CN": "添加所选文字到屏蔽词|已将「{word}」添加到「{level}」。|已将「{word}」移动到「{level}」。|「{word}」已在「{level}」。|请选择一段不超过 160 字、没有分隔符的文字。|添加失败，请重试。|撤销|已撤销本次更改。|无法撤销，词条可能已被修改或撤销时间已过。",
+    "zh-TW": "將選取文字加入封鎖詞|已將「{word}」加入「{level}」。|已將「{word}」移至「{level}」。|「{word}」已在「{level}」。|請選取不超過 160 字且不含分隔符號的文字。|新增失敗，請重試。|復原|已復原本次變更。|無法復原，詞條可能已修改或已逾時。",
+    "en": "Add selected text to blocked terms|Added “{word}” to {level}.|Moved “{word}” to {level}.|“{word}” is already in {level}.|Select up to 160 characters without commas or line breaks.|Could not add the term. Try again.|Undo|Change undone.|Undo expired or the term was changed.",
+    "de": "Auswahl zu Sperrwörtern hinzufügen|„{word}“ wurde zu {level} hinzugefügt.|„{word}“ wurde nach {level} verschoben.|„{word}“ ist bereits in {level}.|Maximal 160 Zeichen ohne Kommas oder Zeilenumbrüche auswählen.|Hinzufügen fehlgeschlagen.|Rückgängig|Änderung rückgängig gemacht.|Frist abgelaufen oder Begriff geändert.",
+    "fr": "Ajouter la sélection aux termes bloqués|« {word} » ajouté à {level}.|« {word} » déplacé vers {level}.|« {word} » est déjà dans {level}.|Sélectionnez au plus 160 caractères, sans virgule ni retour à la ligne.|Ajout impossible. Réessayez.|Annuler|Modification annulée.|Le délai a expiré ou le terme a changé.",
+    "ru": "Добавить выделенное в стоп-слова|«{word}» добавлено в {level}.|«{word}» перенесено в {level}.|«{word}» уже в {level}.|Выделите до 160 символов без запятых и переносов строки.|Не удалось добавить.|Отменить|Изменение отменено.|Срок отмены истёк или слово изменилось.",
+    "es": "Añadir selección a términos bloqueados|Se añadió «{word}» a {level}.|Se movió «{word}» a {level}.|«{word}» ya está en {level}.|Selecciona hasta 160 caracteres sin comas ni saltos de línea.|No se pudo añadir.|Deshacer|Cambio deshecho.|El plazo venció o el término cambió.",
+    "ko": "선택한 텍스트를 차단어에 추가|‘{word}’을(를) {level}에 추가했습니다.|‘{word}’을(를) {level}(으)로 이동했습니다.|‘{word}’은(는) 이미 {level}에 있습니다.|쉼표와 줄바꿈 없이 160자 이하를 선택하세요.|추가하지 못했습니다.|실행 취소|변경을 취소했습니다.|시간이 지났거나 단어가 변경되었습니다.",
+    "ja": "選択した文字を禁止語に追加|「{word}」を {level} に追加しました。|「{word}」を {level} に移動しました。|「{word}」はすでに {level} にあります。|コンマや改行を含まない160文字以内の文字を選択してください。|追加できませんでした。|元に戻す|変更を元に戻しました。|期限切れか、語が変更されています。",
+    "pt": "Adicionar seleção aos termos bloqueados|“{word}” adicionado a {level}.|“{word}” movido para {level}.|“{word}” já está em {level}.|Selecione até 160 caracteres sem vírgulas ou quebras de linha.|Não foi possível adicionar.|Desfazer|Alteração desfeita.|O prazo expirou ou o termo foi alterado.",
+    "hi": "चुना हुआ पाठ अवरुद्ध शब्दों में जोड़ें|“{word}” को {level} में जोड़ा।|“{word}” को {level} में ले गए।|“{word}” पहले से {level} में है।|अल्पविराम या नई पंक्ति के बिना अधिकतम 160 अक्षर चुनें।|शब्द नहीं जुड़ सका।|वापस लें|बदलाव वापस लिया।|समय समाप्त हुआ या शब्द बदल गया।",
+    "ar": "أضف النص المحدد إلى الكلمات المحظورة|أُضيفت «{word}» إلى {level}.|نُقلت «{word}» إلى {level}.|«{word}» موجودة بالفعل في {level}.|حدد حتى 160 حرفًا دون فواصل أو أسطر جديدة.|تعذّرت الإضافة.|تراجع|تم التراجع عن التغيير.|انتهت مهلة التراجع أو تغيّر المصطلح.",
+  };
   const tables = Object.fromEntries(Object.entries(rows).map(([locale, row]) => {
     const values = row.split('|');
     if (values.length !== keys.length) throw new Error('Incomplete locale: ' + locale);
@@ -115,8 +130,10 @@
     if (statsValues.length !== statsKeys.length) throw new Error('Incomplete statistics locale: ' + locale);
     const periodValues = periodRows[locale].split('|');
     if (periodValues.length !== periodKeys.length) throw new Error('Incomplete statistics period locale: ' + locale);
-    const allValues = [...values, ...profanityValues, ...detailValues, ...statsValues, ...periodValues];
-    const table = Object.fromEntries([...keys, ...profanityKeys, ...detailKeys, ...statsKeys, ...periodKeys].map((key, index) =>
+    const selectionValues = selectionRows[locale].split('|');
+    if (selectionValues.length !== selectionKeys.length) throw new Error('Incomplete selection menu locale: ' + locale);
+    const allValues = [...values, ...profanityValues, ...detailValues, ...statsValues, ...periodValues, ...selectionValues];
+    const table = Object.fromEntries([...keys, ...profanityKeys, ...detailKeys, ...statsKeys, ...periodKeys, ...selectionKeys].map((key, index) =>
       [key, allValues[index]]));
     [table.contains, table.exactHelp, table.balancedHelp, table.containsHelp] = tierCopy[locale];
     [table.exceptionHelp, table.exceptionExample, table.exceptionFolded, table.exceptionKept, table.exceptionPriority] = exceptionCopy[locale];
