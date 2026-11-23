@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>评论关键词屏蔽</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="popup.css">
+  <script defer src="i18n.js"></script>
+  <script defer src="rules.js"></script>
+  <script defer src="popup.js"></script>
+</head>
+<body>
+  <main>
+    <header class="extension-brand">
+      <img src="icons/icon128.png" alt="" width="48" height="48">
+      <div>
+        <h1 data-text="title">评论关键词屏蔽</h1>
+        <p data-text="subtitle">在同一个页面管理十个平台的评论过滤。</p>
+      </div>
+    </header>
+    <section id="install" hidden>
+      <h2 data-text="install"></h2>
+      <p data-text="installHelp"></p>
+    </section>
+    <form id="settings">
+      <fieldset id="controls" disabled>
+        <section class="panel rules-panel" aria-labelledby="tier-heading">
+          <h2 id="tier-heading" data-text="tiers"></h2>
+          <p data-text="tierHelp"></p>
+          <div class="term-search">
+            <label for="term-search" data-text="search"></label>
+            <input type="search" id="term-search" data-placeholder="search">
+          </div>
+          <div class="tier-grid" id="tiers"></div>
+        </section>
+        <div class="layout">
+          <section class="wordlists">
+            <section class="panel">
+              <h2><label for="exceptions" data-text="exceptions"></label></h2>
+              <p data-text="exceptionHelp"></p>
+              <div class="exception-examples">
+                <p data-text="exceptionExample"></p>
+                <ul>
+                  <li data-text="exceptionFolded"></li>
+                  <li data-text="exceptionKept"></li>
+                  <li data-text="exceptionPriority"></li>
+                </ul>
+              </div>
+              <div class="entry"><textarea id="exceptions" rows="1" data-placeholder="exceptionInput"></textarea><button id="add-exceptions" type="button" data-text="add"></button></div>
+              <ul id="exception-list" class="word-list" data-label="exceptions"></ul>
+              <p id="exceptions-empty" data-text="exceptionEmpty"></p>
+            </section>
+            <section class="panel language-panel">
+              <h2><label for="locale" data-text="language"></label></h2>
+              <select id="locale"></select>
+            </section>
+            <section class="panel language-panel">
+              <h2 data-text="profanityTitle"></h2>
+              <div class="switches">
+                <label><input type="checkbox" id="profanity-enabled"> <span data-text="profanityEnabled"></span></label>
+              </div>
+              <label for="profanity-level" data-text="profanityStrength"></label>
+              <select id="profanity-level" aria-describedby="profanity-help">
+                <option value="clear" data-text="profanityClear"></option>
+                <option value="common" data-text="profanityCommon"></option>
+                <option value="extended" data-text="profanityExtended"></option>
+              </select>
+              <p id="profanity-level-detail" aria-live="polite"></p>
+              <p id="profanity-help" data-text="profanityHelp"></p>
+            </section>
+          </section>
+          <aside class="panel">
+            <h2 data-text="basic"></h2>
+            <div class="switches">
+              <label><input type="checkbox" id="enabled" aria-describedby="enabled-hint"> <span data-text="enabled"></span></label>
+              <p id="enabled-hint" data-text="enabledHint"></p>
+              <label><input type="checkbox" id="exempt-self" aria-describedby="self-hint"> <span data-text="self"></span></label>
+              <p id="self-hint" data-text="selfHint"></p>
+              <label><input type="checkbox" id="filter-post-author" aria-describedby="author-hint"> <span data-text="authors"></span></label>
+              <p id="author-hint" data-text="authorsHint"></p>
+              <label><input type="checkbox" id="show-folded-reason" aria-describedby="reason-hint"> <span data-text="reasons"></span></label>
+              <p id="reason-hint" data-text="reasonsHint"></p>
+              <label><input type="checkbox" id="preview"> <span data-text="preview"></span></label>
+            </div>
+            <fieldset class="sites">
+              <legend data-text="websites"></legend>
+              <div id="sites"></div>
+            </fieldset>
+          </aside>
+        </div>
+        <div class="actions"><button id="save" type="submit" data-text="save"></button><span id="status" role="status"></span></div>
+        <div class="backup">
+          <button id="export" type="button" data-text="export"></button>
+          <label class="import"><span data-text="import"></span><input type="file" id="import" accept=".json,application/json"></label>
+        </div>
+      </fieldset>
+    </form>
+    <section id="statistics" class="panel statistics" aria-labelledby="stats-heading" hidden>
+      <header>
+        <h2 id="stats-heading" data-text="statsTitle"></h2>
+        <p data-text="statsHelp"></p>
+        <p id="page-status"></p>
+      </header>
+      <div class="stats-controls">
+        <label for="stats-period" data-text="statsPeriod"></label>
+        <select id="stats-period">
+          <option value="all" data-text="statsAll"></option>
+          <option value="day" data-text="statsDay"></option>
+          <option value="week" data-text="statsWeek"></option>
+          <option value="month" data-text="statsMonth"></option>
+          <option value="year" data-text="statsYear"></option>
+        </select>
+        <button type="button" id="stats-reset" data-text="statsReset" disabled></button>
+        <button type="button" id="stats-undo" data-text="statsUndo" disabled></button>
+      </div>
+      <p id="stats-action-status" role="status"></p>
+      <p data-text="statsHistory"></p>
+      <dl class="stats-totals">
+        <div><dt data-text="statsScanned"></dt><dd id="stats-scanned">0</dd></div>
+        <div><dt data-text="statsFolded"></dt><dd id="stats-folded">0</dd></div>
+      </dl>
+      <div class="stats-layout">
+        <section class="stats-visual">
+          <label for="stats-metric" data-text="statsChart"></label>
+          <select id="stats-metric">
+            <option value="folded" data-text="statsFolded"></option>
+            <option value="scanned" data-text="statsScanned"></option>
+          </select>
+          <div id="stats-chart" role="img"></div>
+          <p id="stats-empty" data-text="statsEmpty"></p>
+        </section>
+        <table>
+          <thead><tr><th scope="col" data-text="statsPlatform"></th><th scope="col" data-text="statsScanned"></th><th scope="col" data-text="statsFolded"></th><th scope="col" data-text="statsShare"></th></tr></thead>
+          <tbody id="stats-platforms"></tbody>
+        </table>
+      </div>
+    </section>
+    <template id="tier-template">
+      <section class="tier">
+        <h3><label></label></h3>
+        <p class="tier-hint"></p>
+        <ul class="tier-examples"></ul>
+        <div class="entry"><textarea rows="1" data-placeholder="input"></textarea><button type="button" data-text="add"></button></div>
+        <ul class="word-list"></ul>
+        <p class="empty" data-text="empty"></p>
+        <nav class="pager" hidden>
+          <button type="button" data-text="previous"></button>
+          <span aria-live="polite"></span>
+          <button type="button" data-text="next"></button>
+        </nav>
+      </section>
+    </template>
+  </main>
+</body>
+</html>

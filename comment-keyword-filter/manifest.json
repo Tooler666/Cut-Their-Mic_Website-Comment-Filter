@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "评论关键词屏蔽",
+  "version": "1.12.2",
+  "description": "在 B 站、TikTok、抖音、YouTube、X、小红书、Instagram、Reddit、贴吧和 Facebook 按关键词折叠评论。",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_title": "打开评论关键词屏蔽设置",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "popup.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.bilibili.com/*",
+        "https://*.xiaohongshu.com/*",
+        "https://*.douyin.com/*",
+        "https://*.tiktok.com/*",
+        "https://*.youtube.com/*",
+        "https://*.x.com/*",
+        "https://*.twitter.com/*",
+        "https://*.instagram.com/*",
+        "https://*.reddit.com/*",
+        "https://tieba.baidu.com/*",
+        "https://*.facebook.com/*"
+      ],
+      "js": [
+        "i18n.js",
+        "rules.js",
+        "profanity.js",
+        "identities.js",
+        "filter.js"
+      ],
+      "css": [
+        "filter.css"
+      ],
+      "run_at": "document_start"
+    }
+  ]
+}
