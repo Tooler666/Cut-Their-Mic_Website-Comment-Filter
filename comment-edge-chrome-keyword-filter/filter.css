@@ -1,0 +1,57 @@
+[data-local-comment-keyword-hidden] {
+  display: none !important;
+}
+.local-comment-keyword-notice {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 6px 0;
+  padding: 8px 12px;
+  border: 1px solid #8a938d;
+  border-radius: 8px;
+  background: Canvas;
+  color: CanvasText;
+  font: 13px/1.5 system-ui, sans-serif;
+}
+.local-comment-keyword-notice button {
+  padding: 2px 8px;
+  border: 1px solid #8a938d;
+  border-radius: 5px;
+  background: ButtonFace;
+  color: ButtonText;
+  font: inherit;
+  cursor: pointer;
+}
+.local-comment-keyword-notice button:focus-visible {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+.local-comment-keyword-toast {
+  position: fixed;
+  inset-inline-end: 20px;
+  inset-block-end: 20px;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(400px, calc(100vw - 40px));
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #8a938d;
+  background: Canvas;
+  color: CanvasText;
+  font: 14px/1.45 system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+.local-comment-keyword-toast button {
+  flex: none;
+  padding: 3px 8px;
+  border: 1px solid #8a938d;
+  border-radius: 5px;
+  background: ButtonFace;
+  color: ButtonText;
+  font: inherit;
+  cursor: pointer;
+}
