@@ -10,6 +10,10 @@ Add your keywords and matching comments are folded automatically, like a one-cli
 Comment Keyword Filter is a desktop Chrome and Edge extension. Add the keywords you do not want to see, and matching comments are folded automatically. You can expand each one to read it,
 or fold it again.
 
+本页适用于 Edge。其他浏览器版本可以在 Tags 页面找到。
+
+This page is for Edge. Versions for other browsers can be found on the Tags page.
+
 ## 核心功能 Key features
 
 - 支持十个平台:B站,YouTube,X,抖音,TikTok,小红书,Instagram,Reddit,贴吧,Facebook
